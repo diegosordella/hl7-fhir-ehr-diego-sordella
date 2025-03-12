@@ -7,11 +7,11 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://hl7-patient-write.onrender.com"],  # Permitir solo este dominio
+    allow_origins=["https://hl7-patient-write-diego-sordella-nmdb.onrender.com"],  # Permitir solo este dominio
     allow_credentials=True,
     allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
     allow_headers=["*"],  # Permitir todos los encabezados
-)
+)<
 
 @app.get("/patient/{patient_id}", response_model=dict)
 async def get_patient_by_id(patient_id: str):
