@@ -10,7 +10,7 @@ app = FastAPI()
 # Configuración de CORS (permite acceso desde el frontend si es necesario)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://https://https://hl7-fhir-ehr-diego-sordella.onrender.com"],  # Permitir solo este dominio
+    allow_origins=["https://hl7-fhir-ehr-diego-sordella.onrender.com"],  # Permitir solo este dominio
     allow_credentials=True,
     allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
     allow_headers=["*"],  # Permitir todos los encabezados
@@ -61,6 +61,7 @@ async def add_patient(request: Request):
     else:
         raise HTTPException(status_code=500, detail=f"Validating error: {status}")
 
-if __name__ == '_main_':
+if __name__ == '__main__':
     port = int(os.getenv("PORT", 8000))  # Render asigna el puerto automáticamente
     uvicorn.run(app, host="0.0.0.0", port=port)
+
