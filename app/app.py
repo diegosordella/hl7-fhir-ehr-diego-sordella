@@ -7,13 +7,13 @@ from fastapi.middleware.cors import CORSMiddleware
 # Crear la aplicación FastAPI
 app = FastAPI()
 
-# Configuración de CORS (permite acceso desde el frontend si es necesario)
+# ✅ Configuración de CORS corregida
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://hl7-fhir-ehr-diego-sordella.onrender.com"],  # Permitir solo este dominio
+    allow_origins=["https://hl7-fhir-ehr-diego-sordella.onrender.com"],
     allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
-    allow_headers=["*"],  # Permitir todos los encabezados
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 @app.get("/")
@@ -38,7 +38,7 @@ async def get_patient_by_id(patient_id: str):
 
 @app.get("/patient", response_model=dict)
 async def get_patient_by_identifier(system: str, value: str):
-    print(f"🔍 Buscando paciente con System: {system}, ID: {value}")  # Corrección aquí
+    print(f"🔍 Buscando paciente con System: {system}, ID: {value}")
     status, patient = GetPatientByIdentifier(system, value)
     
     if status == 'success':
@@ -48,7 +48,6 @@ async def get_patient_by_identifier(system: str, value: str):
     else:
         raise HTTPException(status_code=500, detail=f"Internal error. {status}")
 
-
 @app.post("/patient", response_model=dict)
 async def add_patient(request: Request):
     new_patient_dict = dict(await request.json())
@@ -57,11 +56,13 @@ async def add_patient(request: Request):
     status, patient_id = WritePatient(new_patient_dict)
     
     if status == 'success':
-        return {"_id": patient_id}  # Devuelve el ID del paciente creado
+        return {"_id": patient_id}
     else:
         raise HTTPException(status_code=500, detail=f"Validating error: {status}")
 
-if __name__ == '__main__':
-    port = int(os.getenv("PORT", 8000))  # Render asigna el puerto automáticamente
+# ✅ Esta línea corregida permite ejecutar localmente
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
+
 
