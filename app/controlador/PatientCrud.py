@@ -19,17 +19,25 @@ def GetPatientById(patient_id: str):
 
 def WritePatient(patient_dict: dict):
     try:
+        print("📩 JSON recibido:")
+        print(json.dumps(patient_dict, indent=2))  # <- Esto muestra el JSON recibido de forma clara
+
         pat = Patient.model_validate(patient_dict)
     except Exception as e:
-        print("❌ Error validando el paciente:", e) 
-        return f"errorValidating: {str(e)}",None
+        print(f"❌ Error al validar el paciente: {str(e)}")
+        return f"errorValidating: {str(e)}", None
+
     validated_patient_json = pat.model_dump()
-    result = collection.insert_one(patient_dict)
-    if result:
-        inserted_id = str(result.inserted_id)
-        return "success",inserted_id
-    else:
-        return "errorInserting", None
+    try:
+        result = collection.insert_one(validated_patient_json)
+        if result:
+            inserted_id = str(result.inserted_id)
+            return "success", inserted_id
+        else:
+            return "errorInserting", None
+    except Exception as e:
+        print(f"❌ Error al insertar en MongoDB: {str(e)}")
+        return f"errorInserting: {str(e)}", None
     
 
 def GetPatientByIdentifier(patientSystem, patientValue):
