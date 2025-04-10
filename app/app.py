@@ -50,15 +50,25 @@ async def get_patient_by_identifier(system: str, value: str):
 
 @app.post("/patient", response_model=dict)
 async def add_patient(request: Request):
-    new_patient_dict = dict(await request.json())
-    print(f"📝 Recibiendo nuevo paciente: {new_patient_dict}")
-    
-    status, patient_id = WritePatient(new_patient_dict)
-    
-    if status == 'success':
-        return {"_id": patient_id}
-    else:
-        raise HTTPException(status_code=500, detail=f"Validating error: {status}")
+    try:
+        new_patient_dict = dict(await request.json())
+        print(f"📝 Recibiendo nuevo paciente: {new_patient_dict}")
+        
+        status, patient_id = WritePatient(new_patient_dict)
+        
+        if status == 'success':
+            return {"_id": patient_id}
+        else:
+            return JSONResponse(
+                status_code=500,
+                content={"error": f"Validating error: {status}"}
+            )
+    except Exception as e:
+        print(f"❌ Error en /patient: {str(e)}")
+        return JSONResponse(
+            status_code=500,
+            content={"error": f"Unexpected error: {str(e)}"}
+        )
 
 # ✅ Esta línea corregida permite ejecutar localmente
 if __name__ == "__main__":
