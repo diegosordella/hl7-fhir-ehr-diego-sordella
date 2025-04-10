@@ -10,7 +10,7 @@ app = FastAPI()
 # Configuración de CORS (permite acceso desde el frontend si es necesario)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://https://hl7-patient-write-diego-sordella-nmdb.onrender.com"],  # Permitir solo este dominio
+    allow_origins=["https://https://hl7-fhir-ehr-diego-sordella.onrender.com"],  # Permitir solo este dominio
     allow_credentials=True,
     allow_methods=["*"],  # Permitir todos los métodos (GET, POST, etc.)
     allow_headers=["*"],  # Permitir todos los encabezados
