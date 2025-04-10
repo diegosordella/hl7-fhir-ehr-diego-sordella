@@ -61,6 +61,6 @@ async def add_patient(request: Request):
     else:
         raise HTTPException(status_code=500, detail=f"Validating error: {status}")
 
-if _name_ == '_main_':
+if __name__ == '_main_':
     port = int(os.getenv("PORT", 8000))  # Render asigna el puerto automáticamente
     uvicorn.run(app, host="0.0.0.0", port=port)
