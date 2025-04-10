@@ -51,9 +51,12 @@ async def get_patient_by_identifier(system: str, value: str):
 @app.post("/patient", response_model=dict)
 async def add_patient(request: Request):
     print("🔴 Entrando al endpoint /patient")
+    body = await request.body()
     try:
-        body = await request.body()
+        
         print(f"📦 Raw body: {body.decode('utf-8')}")
+    except Exception as e:
+        print(f"⚠️ No se pudo decodificar el body: {e}")    
         
         new_patient_dict = dict(await request.json())
         print(f"📝 Recibiendo nuevo paciente: {new_patient_dict}")
