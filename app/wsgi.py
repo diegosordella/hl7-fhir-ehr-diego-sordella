@@ -1,4 +1,5 @@
 from app.app import app
+pip install gunicorn
 
 if _name_ == "__main__":
     import uvicorn
