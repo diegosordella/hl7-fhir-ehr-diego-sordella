@@ -21,6 +21,7 @@ def WritePatient(patient_dict: dict):
     try:
         pat = Patient.model_validate(patient_dict)
     except Exception as e:
+        print("❌ Error validando el paciente:", e) 
         return f"errorValidating: {str(e)}",None
     validated_patient_json = pat.model_dump()
     result = collection.insert_one(patient_dict)
